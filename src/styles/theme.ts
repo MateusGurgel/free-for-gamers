@@ -20,7 +20,7 @@ export default extendTheme({
   },
   space: {
     1: "0.25rem",
-    4: "1rem",
+    4: "1.5rem",
     12: "3rem",
     96: "24rem",
   },
