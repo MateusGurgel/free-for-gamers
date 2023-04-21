@@ -1,11 +1,11 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 
 export default function Footer() {
   return (
-    <Box bg="ui" w="100%" p={4} color="white">
+    <Flex justify="center" bg="ui" w="100%" p={4} color="white">
       <footer>
-        <h1>Footer</h1>
+        <h1>Powered by FreeToGame.com</h1>
       </footer>
-    </Box>
+    </Flex>
   );
 }
