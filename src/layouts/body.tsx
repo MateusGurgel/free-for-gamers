@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
 interface BodyInterface {
@@ -7,8 +7,8 @@ interface BodyInterface {
 
 export default function Body({ children }: BodyInterface) {
   return (
-    <Box width="100%" height="calc(100vh - 75px )" bg="background" color="white">
-      <main>{children}</main>
-    </Box>
+    <Flex padding={4} justify="center" width="100%" minHeight="calc(100vh - 75px )" bg="background" color="white">
+        <main>{children}</main>
+    </Flex>
   );
 }
