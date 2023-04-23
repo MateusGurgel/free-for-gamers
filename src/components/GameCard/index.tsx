@@ -21,7 +21,7 @@ export function GameCard(props: GameCardProps) {
   return (
     <Card maxW="sm" bg="ui" color="white" height={427}>
       <CardBody>
-        <Image src={props.imageUrl} alt="Game" width={344} height={195} />
+        <Image src={props.imageUrl} alt="Game" width={344} height={194.15}/>
 
         <Stack mt="6" spacing="3">
           <Heading size="md" fontSize="lg">

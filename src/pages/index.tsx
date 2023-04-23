@@ -1,57 +1,29 @@
-import { GameCard } from "@/components/GameCard";
+import randomIntFromInterval from "@/services/randomIntFromInterval";
+import { Flex, SimpleGrid, Skeleton, Stack } from "@chakra-ui/react";
 import { CategoryBadge } from "@/components/categoryBadge";
-import { Flex, SimpleGrid, Stack } from "@chakra-ui/react";
-import useSWR from 'swr'
-
-const gameGenres: string[] = [
-  "mmorpg",
-  "shooter",
-  "strategy",
-  "moba",
-  "racing",
-  "sports",
-  "social",
-  "sandbox",
-  "open-world",
-  "survival",
-  "pvp",
-  "pve",
-  "pixel",
-  "voxel",
-  "zombie",
-  "turn-based",
-  "first-person",
-  "third-person",
-  "top-down",
-  "tank",
-  "space",
-  "sailing",
-  "side-scroller",
-  "superhero",
-  "permadeath",
-  "card",
-  "battle-royale",
-  "mmo",
-  "mmofps",
-  "mmotps",
-  "3d",
-  "2d",
-  "anime",
-  "fantasy",
-  "sci-fi",
-  "fighting",
-  "action-rpg",
-  "action",
-  "military",
-  "martial-arts",
-  "flight",
-  "low-spec",
-  "tower-defense",
-  "horror",
-  "mmorts",
-];
+import { gameGenres } from "@/services/gameGenres";
+import { GameCard } from "@/components/GameCard";
+import { useEffect, useState } from "react";
+import fetcher from "@/fecher";
+import Game from "@/services/game";
+import useSWR from "swr";
+import { SkeletonGameCard } from "@/components/SkeletonGameCard";
 
 export default function Home() {
+  const [gameList, setGameList] = useState<Game[]>([]);
+
+  const { data, isLoading } = useSWR("/api/getRandomGamesList", fetcher, {
+    revalidateOnFocus: false,
+    revalidateOnMount: true,
+    refreshWhenHidden: false,
+    revalidateOnReconnect: false,
+    refreshWhenOffline: false,
+  });
+
+  useEffect(() => {
+    setGameList(data);
+    console.log("Mudou!");
+  }, [data]);
 
   return (
     <Stack gap={2}>
@@ -63,7 +35,32 @@ export default function Home() {
 
       <Flex justify="center">
         <SimpleGrid columns={3} spacing={5}>
-          <GameCard category="Programmer" name="Genius!" description="Brabo" imageUrl="https://bit.ly/dan-abramov" />
+          {!isLoading ? (
+            gameList &&
+            gameList.map((game) => (
+              <GameCard
+                key={game.id}
+                category={game.genre}
+                name={game.title}
+                description={game.short_description}
+                imageUrl={game.thumbnail}
+              />
+            ))
+          ) : (
+            <>
+              <SkeletonGameCard />
+              <SkeletonGameCard />
+              <SkeletonGameCard />
+
+              <SkeletonGameCard />
+              <SkeletonGameCard />
+              <SkeletonGameCard />
+
+              <SkeletonGameCard />
+              <SkeletonGameCard />
+              <SkeletonGameCard />
+            </>
+          )}
         </SimpleGrid>
       </Flex>
     </Stack>
