@@ -19,7 +19,7 @@ interface GameCardProps {
 
 export function GameCard(props: GameCardProps) {
   return (
-    <Card maxW="sm" bg="ui" color="white" height={427}>
+    <Card maxW="sm" bg="ui" color="white" >
       <CardBody>
         <Image src={props.imageUrl} alt="Game" width={344} height={194.15}/>
 
@@ -43,7 +43,7 @@ export function GameCard(props: GameCardProps) {
         </Stack>
       </CardBody>
       <CardFooter>
-        <Flex width="100%" flexDirection="row-reverse">
+        <Flex width="100%" height="100%" flexDirection="row-reverse">
           <Badge
             colorScheme="green"
             fontWeight="light"

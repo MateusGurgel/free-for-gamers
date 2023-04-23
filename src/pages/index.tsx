@@ -43,11 +43,12 @@ export default function Home() {
             next={loadMoreGames}
             hasMore={true}
             loader={<div>Loading...</div>}
+            scrollableTarget={false}
           >
             <SimpleGrid columns={3} spacing={5}>
-              {gameList.map((game) => (
+              {gameList.map((game, index) => (
                 <GameCard
-                  key={game.id}
+                  key={game.id + game.game_url + index}
                   category={game.genre}
                   name={game.title}
                   description={game.short_description}
