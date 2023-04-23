@@ -5,28 +5,23 @@ import {
   CardFooter,
   Flex,
   Heading,
-  Image,
   Stack,
   Text,
 } from "@chakra-ui/react";
+import Image from "next/image";
 
 interface GameCardProps {
+  imageUrl: string;
   name: string;
   description: string;
-
   category: string;
-  imageUrl: string;
 }
 
-export function GameCard( props : GameCardProps) {
+export function GameCard(props: GameCardProps) {
   return (
-    <Card maxW="sm" bg="ui" color="white">
+    <Card maxW="sm" bg="ui" color="white" height={427}>
       <CardBody>
-        <Image
-          src={props.imageUrl}
-          width="100%"
-          alt="Game"
-        />
+        <Image src={props.imageUrl} alt="Game" width={344} height={195} />
 
         <Stack mt="6" spacing="3">
           <Heading size="md" fontSize="lg">
