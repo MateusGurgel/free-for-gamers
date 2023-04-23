@@ -1,4 +1,5 @@
 import { SkeletonGameCard } from "@/components/SkeletonGameCard";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { Flex, SimpleGrid, Stack } from "@chakra-ui/react";
 import { CategoryBadge } from "@/components/categoryBadge";
 import { gameGenres } from "@/services/gameGenres";
@@ -7,7 +8,7 @@ import { useEffect, useState } from "react";
 import Game from "@/services/game";
 import fetcher from "@/fecher";
 import useSWR from "swr";
-import InfiniteScroll from "react-infinite-scroll-component";
+import { AnimatePresence } from "framer-motion";
 
 export default function Home() {
   const [gameList, setGameList] = useState<Game[]>([]);
@@ -29,42 +30,44 @@ export default function Home() {
   }, [data]);
 
   return (
-    <Stack gap={2}>
-      <Flex wrap="wrap" gap={2} justify="center">
-        {gameGenres.map((category, index) => (
-          <CategoryBadge key={index} category={category} />
-        ))}
-      </Flex>
+    <AnimatePresence mode="wait">
+      <Stack gap={2}>
+        <Flex wrap="wrap" gap={2} justify="center">
+          {gameGenres.map((category, index) => (
+            <CategoryBadge key={index} category={category} />
+          ))}
+        </Flex>
 
-      <Flex justify="center">
-        {!isLoading && gameList ? (
-          <InfiniteScroll
-            dataLength={gameList.length | 0}
-            next={loadMoreGames}
-            hasMore={true}
-            loader={<div>Loading...</div>}
-            scrollableTarget={false}
-          >
+        <Flex justify="center">
+          {!isLoading && gameList ? (
+            <InfiniteScroll
+              dataLength={gameList.length | 0}
+              next={loadMoreGames}
+              hasMore={true}
+              loader={<div>Loading...</div>}
+              scrollableTarget={false}
+            >
+              <SimpleGrid columns={3} spacing={5}>
+                {gameList.map((game, index) => (
+                  <GameCard
+                    key={game.id + game.game_url + index}
+                    category={game.genre}
+                    name={game.title}
+                    description={game.short_description}
+                    imageUrl={game.thumbnail}
+                  />
+                ))}
+              </SimpleGrid>
+            </InfiniteScroll>
+          ) : (
             <SimpleGrid columns={3} spacing={5}>
-              {gameList.map((game, index) => (
-                <GameCard
-                  key={game.id + game.game_url + index}
-                  category={game.genre}
-                  name={game.title}
-                  description={game.short_description}
-                  imageUrl={game.thumbnail}
-                />
+              {[...Array(9)].map((_, i) => (
+                <SkeletonGameCard key={i} />
               ))}
             </SimpleGrid>
-          </InfiniteScroll>
-        ) : (
-          <SimpleGrid columns={3} spacing={5}>
-            {[...Array(9)].map((_, i) => (
-              <SkeletonGameCard key={i} />
-            ))}
-          </SimpleGrid>
-        )}
-      </Flex>
-    </Stack>
+          )}
+        </Flex>
+      </Stack>
+    </AnimatePresence>
   );
 }

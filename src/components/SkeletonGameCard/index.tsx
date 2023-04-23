@@ -1,32 +1,34 @@
 import {
-  Badge,
   Box,
   Card,
-  CardBody,
-  CardFooter,
   Flex,
+  Stack,
   Heading,
   Skeleton,
-  SkeletonText,
-  Stack,
-  Text,
+  CardBody,
 } from "@chakra-ui/react";
+import { AnimatePresence, motion } from "framer-motion";
 
 export function SkeletonGameCard() {
   return (
-    <Card maxW="sm" bg="ui" color="white" height={384}>
-      <CardBody>
-        <Skeleton>
-          <Box width={344} height={195} />
-        </Skeleton>
+    <motion.div
+      animate={{ opacity: 0, scale: 0.5 }}
+      exit={{ opacity: 0, scale: 0.5 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Card maxW="sm" bg="ui" color="white" height={384}>
+        <CardBody>
+          <Skeleton>
+            <Box width={344} height={195} />
+          </Skeleton>
 
-        <Stack mt="6" spacing="3">
-          <Heading size="md" fontSize="lg">
-            <Flex wrap="wrap" gap={3}>
-            </Flex>
-          </Heading>
-        </Stack>
-      </CardBody>
-    </Card>
+          <Stack mt="6" spacing="3">
+            <Heading size="md" fontSize="lg">
+              <Flex wrap="wrap" gap={3}></Flex>
+            </Heading>
+          </Stack>
+        </CardBody>
+      </Card>
+    </motion.div>
   );
 }
