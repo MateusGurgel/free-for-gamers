@@ -16,7 +16,7 @@ export default extendTheme({
     transparent: "transparent",
     ui: '#1e2124',
     background: '#282b30',
-    brand: '#8EEEF4'
+    brand: '#00FFFF'
   },
   space: {
     1: "0.25rem",
