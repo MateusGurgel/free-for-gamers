@@ -15,7 +15,7 @@ export default function Home() {
   const [gameList, setGameList] = useState<Game[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("");
 
-  const { data, isLoading } = useSWR("/api/getRandomGamesList", fetcher, {
+  const { data } = useSWR("/api/getRandomGamesList", fetcher, {
     revalidateOnFocus: false,
     refreshWhenHidden: false,
     revalidateOnReconnect: false,
@@ -50,53 +50,59 @@ export default function Home() {
         <Flex wrap="wrap" gap={2} justify="center">
           {gameGenres.map((category, index) => (
             <CategoryBadge
-              onSelect={selectCategoty}
               selected={category === selectedCategory}
-              key={index}
+              onSelect={selectCategoty}
               category={category}
+              key={index}
             />
           ))}
         </Flex>
 
         <Flex justify="center">
-          {!isLoading && gameList ? (
+          {gameList ? (
             <InfiniteScroll
-              dataLength={gameList.length | 0}
               next={() => loadMoreGames(selectedCategory)}
-              hasMore={true}
+              dataLength={gameList.length | 0}
               loader={Loader()}
-              scrollableTarget={false}
+              hasMore
             >
-              <SimpleGrid columns={3} spacing={5}>
-                {gameList.map((game, index) => (
-                  <GameCard
-                    key={game.id + game.game_url + index}
-                    category={game.genre}
-                    name={game.title}
-                    description={game.short_description}
-                    imageUrl={game.thumbnail}
-                  />
-                ))}
-              </SimpleGrid>
+              {GameCardGrid(gameList)}
             </InfiniteScroll>
           ) : (
-            GameCardsPlaceHolder()
+            GameCardGridPlaceHolder(9)
           )}
         </Flex>
       </Stack>
     </AnimatePresence>
   );
-
-  function GameCardsPlaceHolder() {
-    return (
-      <SimpleGrid columns={3} spacing={5}>
-        {[...Array(9)].map((_, i) => (
-          <SkeletonGameCard key={i} />
-        ))}
-      </SimpleGrid>
-    );
-  }
 }
+
+function GameCardGridPlaceHolder(numberOfCards: number) {
+  return (
+    <SimpleGrid columns={3} spacing={5}>
+      {[...Array(numberOfCards)].map((_, i) => (
+        <SkeletonGameCard key={i} />
+      ))}
+    </SimpleGrid>
+  );
+}
+
+function GameCardGrid(gameList: Game[]) {
+  return (
+    <SimpleGrid columns={3} spacing={5}>
+      {gameList.map((game, index) => (
+        <GameCard
+          key={game.id + game.game_url + index}
+          category={game.genre}
+          name={game.title}
+          description={game.short_description}
+          imageUrl={game.thumbnail}
+        />
+      ))}
+    </SimpleGrid>
+  );
+}
+
 function Loader() {
   return (
     <Flex height={"100%"} align={"center"} justify={"center"} padding={3}>

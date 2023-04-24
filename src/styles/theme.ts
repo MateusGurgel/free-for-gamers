@@ -5,7 +5,7 @@ export default extendTheme({
     sm: "0.875rem",
     md: "1rem",
     lg: "1.125rem",
-    gg: "1.8rem"
+    gg: "1.8rem",
   },
   fontWeights: {
     light: 300,
@@ -14,9 +14,9 @@ export default extendTheme({
   },
   colors: {
     transparent: "transparent",
-    ui: '#1e2124',
-    background: '#282b30',
-    brand: '#00FFFF'
+    ui: "#1e2124",
+    background: "#282b30",
+    brand: "#00FFFF",
   },
   space: {
     1: "0.25rem",
