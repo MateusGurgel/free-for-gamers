@@ -1,7 +1,7 @@
+import { Flex, SimpleGrid, Spinner, Stack } from "@chakra-ui/react";
 import { SkeletonGameCard } from "@/components/SkeletonGameCard";
 import { getRandomGameList } from "@/services/getRandomGameList";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { Flex, SimpleGrid, Spinner, Stack } from "@chakra-ui/react";
 import { CategoryBadge } from "@/components/categoryBadge";
 import { gameGenres } from "@/services/gameGenres";
 import { GameCard } from "@/components/GameCard";
@@ -23,8 +23,14 @@ export default function Home() {
   });
 
   async function loadMoreGames(category?: string) {
-    const gameList = await getRandomGameList(category);
-    setGameList((prevItems) => [...prevItems, ...gameList]);
+    const randomGameList = (await getRandomGameList(category)) as Game[];
+
+    //adding those two together and making sure that they dont repeat :)
+    setGameList((prev) => [
+      ...new Map(
+        [...prev, ...randomGameList].map((game) => [game["id"], game])
+      ).values(),
+    ]);
   }
 
   async function selectCategoty(categoty: string) {
