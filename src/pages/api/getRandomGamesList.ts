@@ -6,7 +6,15 @@ import Game from '@/services/game';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
-    const gamesMatrix = await fetcher("https://www.freetogame.com/api/games");
+    const { category } = req.query
+
+    let URL = "https://www.freetogame.com/api/games?"
+
+    if(category){
+        URL += `category=${category}`
+    }
+
+    const gamesMatrix = await fetcher(URL);
     const gamesArray = matrixToArray(gamesMatrix);
 
     let randomGames: Game[] = [];
