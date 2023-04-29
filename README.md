@@ -1,7 +1,7 @@
 
 # Free For Gamers 
 
-Free for Gamers is a open source plataform made to help gamers to find free games!
+Free for Gamers is a open source site made to help gamers to find free games!
 
 
 ## Demo
